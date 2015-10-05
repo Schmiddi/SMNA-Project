@@ -7,7 +7,7 @@ library(ggmap)
 ##
 ##################################################################################
 options(stringsAsFactors=FALSE)
-dat=read.csv("data/travelpod.csv")
+dat=read.csv("travelpod.csv")
 str(dat)
 
 # Set date format
@@ -96,8 +96,8 @@ for(i in c(4,8,11)){
 }
 
 
-write.table(dat,file="data/travelpod corrected.csv",sep=",",row.names=FALSE)
-save(dat,file="data/travelpod corrected.RData")
+write.table(dat,file="travelpod corrected.csv",sep=",",row.names=FALSE)
+save(dat,file="travelpod corrected.RData")
 
 ##################################################################################
 ##
@@ -109,3 +109,4 @@ country.info=read.csv("country codes from www.geonames.org.csv") ## NA for North
 str(country.info)
 ctnts=c("Asia","Europe","Oceania","North America","Africa","South America","Antarctica")
 country.info$Continent=ctnts[match(country.info$Continent,c("AS","EU","OC",NA,"AF","SA","AN"))]
+save(ctnts,country.info,file="continent information.RData")

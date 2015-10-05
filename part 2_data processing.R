@@ -1,3 +1,6 @@
+## change working directory if needed
+load("travelpod corrected.RData")
+load("continent information.RData")
 
 ## extract inter-country trips and store them in a matrix
 to.date=function(int) as.Date(int,origin="1970-01-01")
@@ -33,8 +36,8 @@ for(bi in blogids){ # go through entries by blogid
 
 ## save results as RData, and output as a csv file
 save(mat.country,trip.country,file="country matrix and stay duration.RData")
-write.table(mat.country,file="country matrix.csv",sep=",")
-write.table(trip.country,file="country stay duration.csv",sep=",")
+write.csv(mat.country,file="country matrix.csv")
+write.csv(trip.country,file="country stay duration.csv",row.names=FALSE)
 
 ## selecte those countries that appear in at least 3 trip records and country name is not "unknown"
 selected=which(colSums(mat.country)>2 & rowSums(mat.country)>2 & colnames(mat.country)!="unknown")
@@ -48,9 +51,9 @@ matched=unlist(lapply(temp1,length))
 which(matched!=1)
 matched[matched!=1]
 
-temp[[38]]
+temp[[38]] #"India","British Indian Ocean Territory"
 temp1[[38]]=106
-temp[[80]]
+temp[[80]] #"American Samoa","Samoa"
 temp1[[80]]=245
 
 unlist(lapply(temp1,length))
@@ -60,7 +63,13 @@ country_continent1[country_continent1=="Asia"]="Asia\\SEA"
 table(country_continent1)
 ctnts1=c(SEA,"Asia\\SEA",ctnts[-1])
 
-## aggregate to larger scale
+save(mat.country1,file="country matrix_at least 3 trips.RData")
+write.csv(mat.country1,file="country matrix_at least 3 trips.csv")
+write.csv(cbind(SN=1:length(country_continent1),country=colnames(mat.country1),continent=country_continent1),
+          file="country-continent pair_at least 3 trips.csv",row.names=FALSE)
+
+
+### aggregate to larger scale
 n=length(ctnts1)
 mat.country2=matrix(0,nrow=n,ncol=n,dimnames=list(ctnts1,ctnts1))
 for(i in 1:n) for(j in 1:n){
@@ -86,7 +95,7 @@ for(i in c(4,8,11)){
     places=dat.sub$entry_city_adm1
     if(length(unique(places))>1){
       if(dat.sub$author_country_1[1]==SEA[i]){
-        places=c("Unknown Within the country",places)
+        places=c(paste("Unknown Within",SEA[i]),places)
       } else{
         places=c("Other Countries",places)
       }
@@ -110,7 +119,7 @@ for(i in c(4,8,11)){
 #     }
   }
   save(mat.city,trip.city,file=paste(SEA[i],"city matrix and stay duration.RData"))
-  write.table(mat.city,file=paste(SEA[i],"city matrix.csv"),sep=",")
-  write.table(trip.city,file=paste(SEA[i],"city stay duration.csv"),sep=",",row.names=F)
+  write.csv(mat.city,file=paste(SEA[i],"city matrix.csv"))
+  write.csv(trip.city,file=paste(SEA[i],"city stay duration.csv"),row.names=FALSE)
   ###
 }
