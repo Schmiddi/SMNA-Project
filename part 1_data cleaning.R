@@ -64,7 +64,12 @@ for(i in corrected){
   dat$entry_country_1[wh]=countries[i]
 }
 
-##################################################
+##################################################################################
+##
+##      Match city names with geocodes to resolve bad city names
+##      for Indonesia, Philippines, Vietman
+##
+##################################################################################
 # Define the South-East-Asian countries
 SEA=c("Brunei","Cambodia","East Timor","Indonesia","Laos","Malaysia","Myanmar","Philippines","Singapore","Thailand","Vietnam")
 # SEA.code=c("BN","KH","TL","ID","LA","MY","MM","PH","SG","TH","VN")
@@ -93,7 +98,12 @@ for(i in c(4,8,11)){
 
 write.table(dat,file="data/travelpod corrected.csv",sep=",",row.names=FALSE)
 save(dat,file="data/travelpod corrected.RData")
-############
+
+##################################################################################
+##
+##      Store the continent where each country belongs to
+##
+##################################################################################
 countries.new=sort(unique(c(dat$author_country_1,dat$entry_country_1)))
 country.info=read.csv("country codes from www.geonames.org.csv") ## NA for North America
 str(country.info)
