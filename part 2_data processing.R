@@ -1,4 +1,5 @@
 
+## extract trip
 to.date=function(int) as.Date(int,origin="1970-01-01")
 mat.country=matrix(0,nrow=length(countries.new),ncol=length(countries.new),dimnames=list(countries.new,countries.new))
 trip.country=NULL
