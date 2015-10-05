@@ -1,4 +1,4 @@
-#setwd("C:/Users/Lilac Liu/Dropbox/sem3/IS4241")
+#setwd("C:/Users/lilac/Google Drive/is4241/Project/Data")
 library(ggmap)
 
 ##################################################################################
