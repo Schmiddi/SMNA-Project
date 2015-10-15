@@ -241,17 +241,41 @@ write.table(mat.season.origin.country,file="data/seasons_destination_SEA_country
 ##
 ##    Create relative matrices
 ##
-#################################################
+##################################################
 rel.mat.season.sea = sweep(mat.season.sea,MARGIN=2,1/colSums(mat.season.sea,dim=1),`*`)
 rel.mat.season.origin.country = sweep(mat.season.origin.country,MARGIN=2,1/colSums(mat.season.origin.country,dim=1),`*`)
-save(rel.mat.season.origin.country,file="data/seasons_origin_country_rel.RData")
-save(rel.mat.season.sea,file="data/seasons_destination_SEA_country_rel.RData")
+save(rel.mat.season.sea,file="data/seasons_origin_country_rel.RData")
+save(rel.mat.season.origin.country,file="data/seasons_destination_SEA_country_rel.RData")
 
-write.table(rel.mat.season.sea,file="data/seasons_origin_country_rel.csv",sep=",")
-write.table(rel.mat.season.origin.country,file="data/seasons_destination_SEA_country_rel.csv",sep=",")
+write.table(rel.mat.season.origin.country,file="data/seasons_origin_country_rel.csv",sep=",")
+write.table(rel.mat.season.sea,file="data/seasons_destination_SEA_country_rel.csv",sep=",")
 ##################################################
 ##
 ##    Overall statistics - SEA
 ##
-#################################################
+##################################################
 rowSums(mat.season.sea,dim=1)
+
+##################################################
+##
+##    Origin continents
+##
+##################################################
+load('data/continent information.RData')
+continents = unique(country.info$Continent)
+
+mat.season.origin.continet = matrix(0,nrow=length(months),ncol=length(continents),dimnames=list(months,continents))
+
+i = 1
+while(i<=length(countries)){
+  continentId = which(continents==country.info[which(country.info$Country==countries[i]),]$Continent)
+  mat.season.origin.continet[,continentId] = mat.season.origin.continet[,continentId] + mat.season.origin.country[,i]
+  i = i+1
+}
+
+rel.mat.season.origin.continet = sweep(mat.season.origin.continet,MARGIN=2,1/colSums(mat.season.origin.continet,dim=1),`*`)
+
+save(rel.mat.season.origin.continet,file="data/seasons_origin_continent_rel.RData")
+save(mat.season.origin.continet,file="data/seasons_origin_continent.RData")
+write.table(rel.mat.season.origin.continet,file="data/seasons_origin_continent_rel.csv",sep=",")
+write.table(mat.season.origin.continet,file="data/seasons_origin_continent.csv",sep=",")
