@@ -1,8 +1,25 @@
 ## change working directory if needed
-load("travelpod corrected.RData")
-load("continent information.RData")
+load("data/travelpod corrected.RData")
 
-## extract inter-country trips and store them in a matrix
+##################################################################################
+##
+##      Store the continent where each country belongs to
+##
+##################################################################################
+countries.new=sort(unique(c(dat$author_country_1,dat$entry_country_1)))
+country.info=read.csv("data/country codes from www.geonames.org.csv") ## NA for North America
+str(country.info)
+ctnts=c("Asia","Europe","Oceania","North America","Africa","South America","Antarctica")
+country.info$Continent=ctnts[match(country.info$Continent,c("AS","EU","OC",NA,"AF","SA","AN"))]
+save(ctnts,country.info,file="data/continent information.RData")
+
+
+##################################################################################
+##
+##      extract inter-country trips and store them in a matrix
+##      extract the time people stay in a country
+##
+##################################################################################
 to.date=function(int) as.Date(int,origin="1970-01-01")
 mat.country=matrix(0,nrow=length(countries.new),ncol=length(countries.new),dimnames=list(countries.new,countries.new))
 trip.country=NULL
@@ -78,9 +95,13 @@ for(i in 1:n) for(j in 1:n){
   mat.country2[i,j]=sum(mat.country1[from,to])
 }
 
-
-### extract inter-city trips and store them in a matrix
-################### for cities within selected countries
+##################################################################################
+##
+##      extract inter-city/region trips and store them in a matrix
+##          for cities within selected countries
+##      extract the time people stay in a city/region
+##
+##################################################################################
 for(i in c(4,8,11)){
   dat.temp=dat
   outside.country=which(!(dat$entry_country_1 %in% SEA[i]))
@@ -121,5 +142,4 @@ for(i in c(4,8,11)){
   save(mat.city,trip.city,file=paste(SEA[i],"city matrix and stay duration.RData"))
   write.csv(mat.city,file=paste(SEA[i],"city matrix.csv"))
   write.csv(trip.city,file=paste(SEA[i],"city stay duration.csv"),row.names=FALSE)
-  ###
 }

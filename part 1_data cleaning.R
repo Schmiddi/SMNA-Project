@@ -96,17 +96,5 @@ for(i in c(4,8,11)){
 }
 
 
-write.table(dat,file="travelpod corrected.csv",sep=",",row.names=FALSE)
-save(dat,file="travelpod corrected.RData")
-
-##################################################################################
-##
-##      Store the continent where each country belongs to
-##
-##################################################################################
-countries.new=sort(unique(c(dat$author_country_1,dat$entry_country_1)))
-country.info=read.csv("country codes from www.geonames.org.csv") ## NA for North America
-str(country.info)
-ctnts=c("Asia","Europe","Oceania","North America","Africa","South America","Antarctica")
-country.info$Continent=ctnts[match(country.info$Continent,c("AS","EU","OC",NA,"AF","SA","AN"))]
-save(ctnts,country.info,file="continent information.RData")
+write.table(dat,file="data/travelpod corrected.csv",sep=",",row.names=FALSE)
+save(dat,file="data/travelpod corrected.RData")
