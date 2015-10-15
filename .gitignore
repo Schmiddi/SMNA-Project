@@ -20,3 +20,5 @@ data/
 *.RData
 *.png
 *.jpg
+TravelpodCrawler/bin
+TravelpodCralwer/resources
