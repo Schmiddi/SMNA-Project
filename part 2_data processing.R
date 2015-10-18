@@ -94,7 +94,7 @@ for(i in 1:n) for(j in 1:n){
   to=which(country_continent1==ctnts1[j])
   mat.country2[i,j]=sum(mat.country1[from,to])
 }
-
+save(mat.country2,file="mat.country2.RData")
 ##################################################################################
 ##
 ##      extract inter-city/region trips and store them in a matrix
