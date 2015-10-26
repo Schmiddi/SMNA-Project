@@ -7,7 +7,7 @@ library(ggmap)
 ##
 ##################################################################################
 options(stringsAsFactors=FALSE)
-dat=read.csv("travelpod.csv")
+dat=read.csv("data/travelpod.csv")
 str(dat)
 
 # Set date format
